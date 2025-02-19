@@ -7,7 +7,7 @@ from tensorflow.keras.losses import MeanAbsoluteError
 
 custom_objects = {"mae": MeanAbsoluteError()}
 
-lstm_model = tf.keras.models.load_model("lstm_model.h5", custom_objects=custom_objects)
+# lstm_model = tf.keras.models.load_model("lstm_model.h5", custom_objects=custom_objects)
 
 ridge_model = joblib.load("ridge_model.pkl")
 xgb_model = joblib.load("xgb_model.pkl")
@@ -31,9 +31,6 @@ def predict():
         prediction = ridge_model.predict(features)[0]
     elif model_type == "xgb":
         prediction = xgb_model.predict(features)[0]
-    elif model_type == "lstm":
-        features = features.reshape(1, features.shape[1], 1)
-        prediction = lstm_model.predict(features)[0][0]
     else:
         return jsonify({"error": "Invalid model type"}), 400
 
